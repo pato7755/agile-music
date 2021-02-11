@@ -16,4 +16,6 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_search">Search</string>
     <string name="search_artist">Search by Artist or group name</string>
+    <string name="genre">Genre</string>
+    <string name="u2022_bullet">•</string>
 </resources>
