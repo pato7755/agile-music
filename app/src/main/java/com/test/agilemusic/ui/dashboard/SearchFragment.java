@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.test.agilemusic.R;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener{
 
     private SearchViewModel searchViewModel;
     private SearchView searchView;
@@ -49,8 +49,26 @@ public class SearchFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recyclerview);
         textView = root.findViewById(R.id.text_dashboard);
 
+        searchView.setOnQueryTextListener(this);
 
 
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        System.out.println("onQueryTextSubmit");
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        System.out.println("onQueryTextChange");
+
+        if (newText.length() >= 2){
+            //call api
+
+        }
+
+        return false;
+    }
 }

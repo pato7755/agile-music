@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     tools:context=".ui.dashboard.SearchFragment">
 
     <androidx.appcompat.widget.SearchView
@@ -11,18 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:queryHint="@string/search_artist"
-        android:iconifiedByDefault="false"
+        android:background="@color/light_gray"
+        app:defaultQueryHint="@string/search_artist"
+        app:queryHint="@string/search_artist"
+        app:iconifiedByDefault="false"
         >
 
-<!--        <requestFocus />-->
+        <requestFocus />
     </androidx.appcompat.widget.SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:divider="@color/gray"
+        android:layout_marginTop="10dp"
         android:dividerHeight="5dp"
         app:layout_constraintTop_toBottomOf="@id/searchview"  />
 
