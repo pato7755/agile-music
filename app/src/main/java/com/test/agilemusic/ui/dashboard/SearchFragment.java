@@ -15,6 +15,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.test.agilemusic.R;
+import com.test.agilemusic.models.SearchArtistModel;
+
+import java.util.List;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener{
 
@@ -33,12 +36,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         initViews();
 
-        searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
 
@@ -66,7 +64,13 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         if (newText.length() >= 2){
             //call api
+            searchViewModel.getArtistList(newText).observe(getViewLifecycleOwner(), new Observer<List<SearchArtistModel>>() {
+                @Override
+                public void onChanged(List<SearchArtistModel> searchArtistModels) {
 
+                }
+
+            });
         }
 
         return false;
