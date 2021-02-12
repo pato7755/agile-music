@@ -28,11 +28,6 @@ public class SearchViewModel extends ViewModel {
 
     private MutableLiveData<List<SearchArtistModel>> artistList;
 
-//    public SearchViewModel() {
-//        mText = new MutableLiveData<>();
-//        mText.setValue("This is search fragment");
-//    }
-
     public LiveData<List<SearchArtistModel>> getArtistList(String searchTerm) {
         System.out.println("getArtistList");
         if (artistList == null) {
