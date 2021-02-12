@@ -26,7 +26,7 @@ import java.util.List;
 
 public class SearchViewModel extends ViewModel {
 
-    private MutableLiveData<List<SearchArtistModel>> artistList;
+    private MutableLiveData<List<SearchArtistModel>> artistList /*= new MutableLiveData<>()*/;
 
 //    public SearchViewModel() {
 //        mText = new MutableLiveData<>();
@@ -34,15 +34,18 @@ public class SearchViewModel extends ViewModel {
 //    }
 
     public LiveData<List<SearchArtistModel>> getArtistList(String searchTerm) {
+        System.out.println("getArtistList");
         if (artistList == null) {
-            artistList = new MutableLiveData<>();
-            searchArtistByName(searchTerm);
+            this.artistList = new MutableLiveData<>() ;
         }
+        searchArtistByName(searchTerm);
         return artistList;
     }
 
 
     public void searchArtistByName(String term) {
+
+        System.out.println("searchArtistByName");
 
 //            if (!httpConnection.isNetworkAvailable(UserProfile.this)) {
 //                showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.cancel), UserProfile.this);
@@ -78,25 +81,34 @@ public class SearchViewModel extends ViewModel {
                                 JSONArray resultsArray = response.getJSONArray("results");
 
                                 List<SearchArtistModel> list = null;
+                                list = new ArrayList<>();
 
                                 for (int a = 0; a < resultsArray.length(); a++) {
 
 //                                    List<HashMap<String, String>> theList = new ArrayList<HashMap<String, String>>();
-                                    list = new ArrayList<>();
+
 
                                     JSONObject resultObject = resultsArray.getJSONObject(a);
 
-
                                     String artistName = resultObject.getString("artistName");
-//                                    String genre = resultObject.getString("primaryGenreName");
+
                                     String genre = "";
+                                    if (resultObject.has("primaryGenreName"))
+                                        genre = resultObject.getString("primaryGenreName");
+                                    else
+                                        genre = "No particular genre";
+
+
                                     String artistId = resultObject.getString("artistId");
 
                                     list.add(new SearchArtistModel(artistId, artistName, genre));
+                                    System.out.println("list.toString(): " + list.toString());
 
                                 }
 
-                                artistList.setValue(list);
+
+//                                artistList.postValue(list);
+                                artistList.postValue(list);
 
                             } catch (Exception ex) {
                                 System.out.println("exception: " + ex.getMessage());

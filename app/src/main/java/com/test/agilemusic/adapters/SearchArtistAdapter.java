@@ -29,7 +29,7 @@ public class SearchArtistAdapter extends RecyclerView.Adapter<SearchArtistAdapte
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final View view;
         private final TextView artistIdTextView;
         private final TextView artistNameTextView;
@@ -75,6 +75,10 @@ public class SearchArtistAdapter extends RecyclerView.Adapter<SearchArtistAdapte
 
         SearchArtistModel modelObject = list.get(position);
 
+//        System.out.println("modelObject.getArtistId(): " + modelObject.getArtistId());
+//        System.out.println("modelObject.getArtistName(): " + modelObject.getArtistName());
+//        System.out.println("modelObject.getGenre(): " + modelObject.getGenre());
+
         holder.artistIdTextView.setText(modelObject.getArtistId());
         holder.artistNameTextView.setText(modelObject.getArtistName());
         holder.genreTextView.setText(modelObject.getGenre());
@@ -82,7 +86,7 @@ public class SearchArtistAdapter extends RecyclerView.Adapter<SearchArtistAdapte
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
     }
 
 

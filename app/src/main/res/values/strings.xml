@@ -18,4 +18,5 @@
     <string name="search_artist">Search by Artist or group name</string>
     <string name="genre">Genre</string>
     <string name="u2022_bullet">•</string>
+    <string name="no_particular_genre">No particular genre</string>
 </resources>
