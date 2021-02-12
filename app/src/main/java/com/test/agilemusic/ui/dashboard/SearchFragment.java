@@ -1,5 +1,6 @@
 package com.test.agilemusic.ui.dashboard;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,7 @@ import com.test.agilemusic.adapters.SearchArtistAdapter;
 import com.test.agilemusic.models.SearchArtistModel;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener {
 
@@ -60,6 +63,9 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), linearLayoutManager.getOrientation()));
+        }
         searchArtistAdapter = new SearchArtistAdapter(null, getActivity());
         recyclerView.setAdapter(searchArtistAdapter);
 

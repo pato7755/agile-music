@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="10dp"
     tools:context=".ui.dashboard.SearchFragment">
 
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:text="@string/genre"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/dark_gray"
+        android:textColor="@color/gray"
         app:layout_constraintStart_toStartOf="@id/artist_name_textview"
         app:layout_constraintTop_toBottomOf="@id/artist_name_textview" />
 
@@ -41,7 +41,7 @@
         android:paddingRight="5dp"
         android:text="@string/u2022_bullet"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/dark_gray"
+        android:textColor="@color/gray"
         app:layout_constraintStart_toEndOf="@id/genre_label"
         app:layout_constraintTop_toBottomOf="@id/artist_name_textview" />
 
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:text="@string/genre"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/dark_gray"
+        android:textColor="@color/gray"
         app:layout_constraintStart_toEndOf="@id/dot_textview"
         app:layout_constraintTop_toBottomOf="@id/artist_name_textview" />
 

@@ -26,7 +26,7 @@ import java.util.List;
 
 public class SearchViewModel extends ViewModel {
 
-    private MutableLiveData<List<SearchArtistModel>> artistList /*= new MutableLiveData<>()*/;
+    private MutableLiveData<List<SearchArtistModel>> artistList;
 
 //    public SearchViewModel() {
 //        mText = new MutableLiveData<>();
