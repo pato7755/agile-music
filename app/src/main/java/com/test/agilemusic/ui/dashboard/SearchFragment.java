@@ -1,5 +1,6 @@
 package com.test.agilemusic.ui.dashboard;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -19,16 +21,17 @@ import com.test.agilemusic.R;
 import com.test.agilemusic.adapters.SearchArtistAdapter;
 import com.test.agilemusic.communication.CheckInternetConnection;
 import com.test.agilemusic.models.SearchArtistModel;
+import com.test.agilemusic.utilities.ErrorDialogInterface;
 
 import java.util.List;
 import java.util.Objects;
 
-public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, ErrorDialogInterface {
 
     private CheckInternetConnection checkInternetConnection = new CheckInternetConnection();
     private SearchViewModel searchViewModel;
     private SearchView searchView;
-//    private ProgressBar progressBar;
+    //    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     SearchArtistAdapter searchArtistAdapter;
     View root;
@@ -45,7 +48,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         return root;
     }
-
 
 
     private void initViews() {
@@ -76,23 +78,23 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
 //        progressBar.setVisibility(View.VISIBLE);
 
-                    if (!checkInternetConnection.isNetworkAvailable(getActivity())) {
-//                showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.cancel), getActivity());
-            } else {
-                        searchViewModel.getArtistList(query).observe(getViewLifecycleOwner(), new Observer<List<SearchArtistModel>>() {
-                            @Override
-                            public void onChanged(List<SearchArtistModel> searchArtistModels) {
+        if (!checkInternetConnection.isNetworkAvailable(getActivity())) {
+            showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.cancel), getActivity());
+        } else {
+            searchViewModel.getArtistList(query).observe(getViewLifecycleOwner(), new Observer<List<SearchArtistModel>>() {
+                @Override
+                public void onChanged(List<SearchArtistModel> searchArtistModels) {
 
-                                searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
-                                recyclerView.setAdapter(searchArtistAdapter);
-                                recyclerView.setHasFixedSize(true);
+                    searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
+                    recyclerView.setAdapter(searchArtistAdapter);
+                    recyclerView.setHasFixedSize(true);
 
-                            }
+                }
 
-                        });
+            });
 //        progressBar.setVisibility(View.INVISIBLE);
 
-                    }
+        }
         return false;
     }
 
@@ -118,6 +120,20 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 //        }
 
         return false;
+    }
+
+    @Override
+    public void showAlertDialog(String title, String message, String positiveButtonText, Context context) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonText, (dialogInterface, id) -> {
+                    dialogInterface.dismiss();
+                })
+                .create()
+                .show();
+
     }
 
 //    public void initProgressBar() {
