@@ -1,14 +1,18 @@
 package com.test.agilemusic.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.test.agilemusic.R;
+import com.test.agilemusic.application.AgileMusicApplication;
 import com.test.agilemusic.models.SearchArtistModel;
 
 import java.util.List;
@@ -49,14 +53,13 @@ public class SearchArtistAdapter extends RecyclerView.Adapter<SearchArtistAdapte
         public void onClick(View view) {
             System.out.println("recyclerview clicked");
 
-//            String genre = "genre_" + genreIdTextView.getText().toString().toLowerCase();
-//
-//            Context context = view.getContext();
-//            Intent intent = new Intent(context, GenreFilter.class);
-//            System.out.println("selected genre: " + genre);
-//            intent.putExtra("selectedGenre", genre);
-//            context.startActivity(intent);
+            String id = artistIdTextView.getText().toString();
+            String name = artistNameTextView.getText().toString();
 
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            bundle.putString("name", name);
+            Navigation.findNavController(view).navigate(R.id.action_navigation_search_to_navigation_albums, bundle);
 
         }
     }

@@ -1,9 +1,4 @@
-package com.test.agilemusic.ui.dashboard;
-
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.SimpleAdapter;
+package com.test.agilemusic.ui.search;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,7 +8,6 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.androidnetworking.interfaces.StringRequestListener;
 import com.test.agilemusic.communication.UrlClass;
 import com.test.agilemusic.models.SearchArtistModel;
 
@@ -21,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SearchViewModel extends ViewModel {
@@ -31,7 +24,7 @@ public class SearchViewModel extends ViewModel {
     public LiveData<List<SearchArtistModel>> getArtistList(String searchTerm) {
         System.out.println("getArtistList");
         if (artistList == null) {
-            this.artistList = new MutableLiveData<>() ;
+            this.artistList = new MutableLiveData<>();
         }
         searchArtistByName(searchTerm);
         return artistList;
@@ -40,17 +33,7 @@ public class SearchViewModel extends ViewModel {
 
     public void searchArtistByName(String term) {
 
-        System.out.println("searchArtistByName");
-
-//            if (!httpConnection.isNetworkAvailable(UserProfile.this)) {
-//                showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.cancel), UserProfile.this);
-//            } else {
-
         System.out.println(UrlClass.baseUrl + UrlClass.SEARCH);
-
-//        progressBar.setVisibility(View.VISIBLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-//                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         try {
 
@@ -79,9 +62,6 @@ public class SearchViewModel extends ViewModel {
                                 list = new ArrayList<>();
 
                                 for (int a = 0; a < resultsArray.length(); a++) {
-
-//                                    List<HashMap<String, String>> theList = new ArrayList<HashMap<String, String>>();
-
 
                                     JSONObject resultObject = resultsArray.getJSONObject(a);
 
@@ -126,10 +106,8 @@ public class SearchViewModel extends ViewModel {
                             if (error.getErrorCode() != 0) {
                                 // received error from server
                                 System.out.println("error.getErrorCode() != 0)");
-//                                showAlertDialog(getString(R.string.oops), getString(R.string.problem_with_request), getString(R.string.ok), UserProfile.this);
                             } else {
                                 System.out.println("error.getErrorCode() == 0)");
-//                                showAlertDialog(getString(R.string.oops), getString(R.string.something_went_wrong), getString(R.string.ok), UserProfile.this);
                             }
                         }
                     });
@@ -140,9 +118,6 @@ public class SearchViewModel extends ViewModel {
         }
 
     }
-
-
-//    }
 
 
 }

@@ -1,4 +1,4 @@
-package com.test.agilemusic.ui.dashboard;
+package com.test.agilemusic.ui.search;
 
 import android.content.Context;
 import android.os.Build;
@@ -81,15 +81,11 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         if (!checkInternetConnection.isNetworkAvailable(getActivity())) {
             showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.cancel), getActivity());
         } else {
-            searchViewModel.getArtistList(query).observe(getViewLifecycleOwner(), new Observer<List<SearchArtistModel>>() {
-                @Override
-                public void onChanged(List<SearchArtistModel> searchArtistModels) {
+            searchViewModel.getArtistList(query).observe(getViewLifecycleOwner(), searchArtistModels -> {
 
-                    searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
-                    recyclerView.setAdapter(searchArtistAdapter);
-                    recyclerView.setHasFixedSize(true);
-
-                }
+                searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
+                recyclerView.setAdapter(searchArtistAdapter);
+                recyclerView.setHasFixedSize(true);
 
             });
 //        progressBar.setVisibility(View.INVISIBLE);
@@ -102,22 +98,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public boolean onQueryTextChange(String newText) {
         System.out.println("onQueryTextChange");
 
-//        if (newText.length() >= 2) {
-//            //call api
-//            searchViewModel.getArtistList(newText).observe(getViewLifecycleOwner(), new Observer<List<SearchArtistModel>>() {
-//                @Override
-//                public void onChanged(List<SearchArtistModel> searchArtistModels) {
-//
-//                    searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
-//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-//                    recyclerView.setLayoutManager(linearLayoutManager);
-//                    recyclerView.setAdapter(searchArtistAdapter);
-////                    searchArtistAdapter.notifyDataSetChanged();
-//
-//                }
-//
-//            });
-//        }
 
         return false;
     }

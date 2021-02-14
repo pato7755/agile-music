@@ -13,15 +13,25 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.test.agilemusic.ui.dashboard.SearchFragment"
+        android:name="com.test.agilemusic.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_navigation_search_to_navigation_albums"
+            app:destination="@id/navigation_albums" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.test.agilemusic.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_albums"
+        android:name="com.test.agilemusic.ui.albums.AlbumsFragment"
+
+        tools:layout="@layout/fragment_albums" />
 
 
 </navigation>
