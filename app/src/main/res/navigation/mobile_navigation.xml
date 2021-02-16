@@ -18,7 +18,8 @@
         tools:layout="@layout/fragment_search" >
         <action
             android:id="@+id/action_navigation_search_to_navigation_albums"
-            app:destination="@id/navigation_albums" />
+            app:destination="@id/navigation_albums"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
 
     <fragment
@@ -30,8 +31,16 @@
     <fragment
         android:id="@+id/navigation_albums"
         android:name="com.test.agilemusic.ui.albums.AlbumsFragment"
+        tools:layout="@layout/fragment_albums" >
+        <action
+            android:id="@+id/action_navigation_albums_to_navigation_tracks"
+            app:destination="@id/navigation_tracks" />
+    </fragment>
 
-        tools:layout="@layout/fragment_albums" />
+ <fragment
+        android:id="@+id/navigation_tracks"
+        android:name="com.test.agilemusic.ui.tracks.TracksFragment"
+        tools:layout="@layout/fragment_tracks" />
 
 
 </navigation>

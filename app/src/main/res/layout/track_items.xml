@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:cardCornerRadius="12dp"
+    android:layout_margin="10dp"
+    app:elevation="5dp"
+    android:background="@color/light_gray">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_borders_blue"
+        app:layout_constraintDimensionRatio="1:1"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/track_number_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/blue"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/track_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:minLines="2"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="Hello Feardkjdkfkdfjkdfdddddddddddddddddddddddddddddddddd"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/track_number_textview" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray"
+            android:layout_margin="5dp"
+            app:layout_constraintBottom_toTopOf="@id/preview_button"
+            />
+
+        <ImageButton
+            android:id="@+id/preview_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/hint"
+            app:layout_constraintTop_toBottomOf="@id/track_name_textview"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="5dp"
+            android:src="@drawable/ic_play" />
+
+        <ImageButton
+            android:id="@+id/like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/hint"
+            app:layout_constraintTop_toBottomOf="@id/track_name_textview"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="5dp"
+            android:src="@drawable/ic_like" />
+
+
+
+        <TextView
+            android:id="@+id/track_id_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/genre"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/dark_gray"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/preview_url_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/genre"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/dark_gray"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/is_streamable_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/genre"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/dark_gray"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

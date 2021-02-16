@@ -71,7 +71,7 @@ public class AlbumsFragment extends Fragment {
     private void initViews() {
 
         recyclerView = root.findViewById(R.id.album_recyclerview);
-        albumNameTextView = root.findViewById(R.id.album_name_textview);
+        albumNameTextView = root.findViewById(R.id.album_textview);
 //        progressBar = root.findViewById(R.id.progress_bar);
 
 //        progressBar.setVisibility(View.INVISIBLE);

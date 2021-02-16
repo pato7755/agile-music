@@ -1,12 +1,14 @@
 package com.test.agilemusic.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -60,13 +62,13 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         public void onClick(View view) {
             System.out.println("recyclerview clicked");
 
-//            String id = artistIdTextView.getText().toString();
-//            String name = artistNameTextView.getText().toString();
-//
-//            Bundle bundle = new Bundle();
-//            bundle.putString("id", id);
-//            bundle.putString("name", name);
-//            Navigation.findNavController(view).navigate(R.id.action_navigation_search_to_navigation_albums, bundle);
+            String albumId = albumIdTextView.getText().toString();
+            String albumName = albumNameTextView.getText().toString();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("albumId", albumId);
+            bundle.putString("albumName", albumName);
+            Navigation.findNavController(view).navigate(R.id.action_navigation_albums_to_navigation_tracks, bundle);
 
 
 

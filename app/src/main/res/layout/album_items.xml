@@ -28,6 +28,8 @@
         android:id="@+id/album_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:maxLines="1"
+        android:minLines="1"
         android:ellipsize="end"
         android:text="Kirk Franklin Presents 1NC (One Nation Crew)"
         android:layout_marginLeft="10dp"

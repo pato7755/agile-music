@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -31,7 +35,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private CheckInternetConnection checkInternetConnection = new CheckInternetConnection();
     private SearchViewModel searchViewModel;
     private SearchView searchView;
-    //    private ProgressBar progressBar;
+    private ProgressBar progressBar;
     private RecyclerView recyclerView;
     SearchArtistAdapter searchArtistAdapter;
     View root;
@@ -52,11 +56,13 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private void initViews() {
 
+        initProgressBar();
+
         searchView = root.findViewById(R.id.searchview);
         recyclerView = root.findViewById(R.id.recyclerview);
 //        progressBar = root.findViewById(R.id.progress_bar);
 
-//        progressBar.setVisibility(View.INVISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -69,6 +75,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         searchView.setOnQueryTextListener(this);
 
+        System.out.println("progressbar: " + progressBar.getVisibility());
+
 
     }
 
@@ -76,11 +84,14 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public boolean onQueryTextSubmit(String query) {
         System.out.println("onQueryTextSubmit");
 
-//        progressBar.setVisibility(View.VISIBLE);
 
         if (!checkInternetConnection.isNetworkAvailable(getActivity())) {
             showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.cancel), getActivity());
         } else {
+
+            showOrHideProgressBar(1);
+            System.out.println("progressbar: " + progressBar.getVisibility());
+
             searchViewModel.getArtistList(query).observe(getViewLifecycleOwner(), searchArtistModels -> {
 
                 searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
@@ -88,7 +99,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                 recyclerView.setHasFixedSize(true);
 
             });
-//        progressBar.setVisibility(View.INVISIBLE);
+            showOrHideProgressBar(0);
 
         }
         return false;
@@ -100,6 +111,16 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
 
         return false;
+    }
+
+    public void showOrHideProgressBar(int flag) {
+
+        if (flag == 0) {
+            progressBar.setVisibility(View.INVISIBLE);
+        } else if (flag == 1) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -116,17 +137,17 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     }
 
-//    public void initProgressBar() {
-//
-//        ConstraintLayout layout = root.findViewById(R.id.container);
-//        progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleLarge);
-//        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(100, 100);
-//        params.bottomToBottom = ConstraintSet.PARENT_ID;
-//        params.endToEnd = ConstraintSet.PARENT_ID;
-//        params.startToStart = ConstraintSet.PARENT_ID;
-//        params.topToTop = ConstraintSet.PARENT_ID;
-//        layout.addView(progressBar, params);
-//        progressBar.setVisibility(View.INVISIBLE);
-//
-//    }
+    public void initProgressBar() {
+
+        ConstraintLayout layout = root.findViewById(R.id.container);
+        progressBar = new ProgressBar(getActivity(), null, android.R.attr.progressBarStyleLarge);
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(100, 100);
+        params.bottomToBottom = ConstraintSet.PARENT_ID;
+        params.endToEnd = ConstraintSet.PARENT_ID;
+        params.startToStart = ConstraintSet.PARENT_ID;
+        params.topToTop = ConstraintSet.PARENT_ID;
+        layout.addView(progressBar, params);
+        progressBar.setVisibility(View.GONE);
+
+    }
 }

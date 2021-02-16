@@ -1,4 +1,4 @@
-package com.test.agilemusic.ui.search;
+package com.test.agilemusic.ui.tracks;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,7 +9,8 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.test.agilemusic.communication.UrlClass;
-import com.test.agilemusic.models.SearchArtistModel;
+import com.test.agilemusic.models.AlbumsModel;
+import com.test.agilemusic.models.TrackModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,32 +18,31 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchViewModel extends ViewModel {
+public class TracksViewModel extends ViewModel {
 
-    private MutableLiveData<List<SearchArtistModel>> artistList;
+    private MutableLiveData<List<TrackModel>> trackList;
 
-    public LiveData<List<SearchArtistModel>> getArtistList(String searchTerm) {
-        System.out.println("getArtistList");
-        if (artistList == null) {
-            this.artistList = new MutableLiveData<>();
+    public LiveData<List<TrackModel>> getTrackList(String albumId) {
+
+        if (trackList == null) {
+            this.trackList = new MutableLiveData<>();
         }
-        searchArtistByName(searchTerm);
-        return artistList;
+        getTracks(albumId);
+        return trackList;
     }
 
 
-    public void searchArtistByName(String term) {
+    public void getTracks(String albumId) {
 
-        System.out.println(UrlClass.baseUrl + UrlClass.SEARCH);
+        System.out.println(UrlClass.baseUrl + UrlClass.LOOKUP);
 
         try {
 
-            AndroidNetworking.get(UrlClass.baseUrl + UrlClass.SEARCH)
+            AndroidNetworking.get(UrlClass.baseUrl + UrlClass.LOOKUP)
                     .addHeaders("Content-Type", "application/json")
-                    .addQueryParameter(UrlClass.TERM, term)
-                    .addQueryParameter(UrlClass.ENTITY, UrlClass.ALL_ARTIST_ENTITY)
-                    .addQueryParameter(UrlClass.LIMIT, "20")
-                    .setTag("search")
+                    .addQueryParameter(UrlClass.ID, albumId)
+                    .addQueryParameter(UrlClass.ENTITY, UrlClass.SONG)
+                    .setTag("get-tracks")
                     .setPriority(Priority.MEDIUM)
                     .build()
                     .getAsJSONObject(new JSONObjectRequestListener() {
@@ -57,32 +57,29 @@ public class SearchViewModel extends ViewModel {
                                 int resultCount = response.getInt("resultCount");
                                 JSONArray resultsArray = response.getJSONArray("results");
 
-                                List<SearchArtistModel> list = null;
+                                List<TrackModel> list = null;
                                 list = new ArrayList<>();
 
                                 for (int a = 0; a < resultsArray.length(); a++) {
 
                                     JSONObject resultObject = resultsArray.getJSONObject(a);
 
-                                    String artistName = resultObject.getString("artistName");
+                                    if (resultObject.getString("wrapperType").equals("track")) {
 
-                                    String genre = "";
-                                    if (resultObject.has("primaryGenreName"))
-                                        genre = resultObject.getString("primaryGenreName");
-                                    else
-                                        genre = "No particular genre";
+                                        String trackId = resultObject.getString("trackId");
+                                        String trackName = resultObject.getString("trackName");
+                                        String trackNumber = resultObject.getString("trackNumber");
+                                        String previewUrl = resultObject.getString("previewUrl");
+                                        boolean isStreamable = resultObject.getBoolean("isStreamable");
 
+                                        list.add(new TrackModel(trackId, trackName, trackNumber, isStreamable, previewUrl));
+                                        System.out.println("list.toString(): " + list.toString());
 
-                                    String artistId = resultObject.getString("artistId");
-
-                                    list.add(new SearchArtistModel(artistId, artistName, genre));
-                                    System.out.println("list.toString(): " + list.toString());
-
+                                    }
                                 }
 
-
 //                                artistList.postValue(list);
-                                artistList.postValue(list);
+                                trackList.setValue(list);
 
                             } catch (Exception ex) {
                                 System.out.println("exception: " + ex.getMessage());
@@ -117,6 +114,5 @@ public class SearchViewModel extends ViewModel {
         }
 
     }
-
 
 }
