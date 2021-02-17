@@ -67,20 +67,6 @@
             app:layout_constraintTop_toBottomOf="@id/track_name_textview" />
 
         <ImageButton
-            android:id="@+id/stop_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/hint"
-            android:padding="5dp"
-            android:src="@drawable/ic_stop"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/track_name_textview" />
-
-        <ImageButton
             android:id="@+id/like_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,7 +85,6 @@
             android:id="@+id/track_id_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/genre"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/dark_gray"
             android:visibility="gone"
@@ -110,7 +95,6 @@
             android:id="@+id/preview_url_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/genre"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/dark_gray"
             android:visibility="gone"

@@ -2,6 +2,7 @@ package com.test.agilemusic.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -16,11 +17,14 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.test.agilemusic.MainActivity;
 import com.test.agilemusic.R;
+import com.test.agilemusic.application.AgileMusicApplication;
 import com.test.agilemusic.models.TrackModel;
 import com.test.agilemusic.utilities.UtilityManager;
 
 import java.io.IOException;
+import java.io.UTFDataFormatException;
 import java.util.List;
 
 public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.MyViewHolder> {
@@ -52,7 +56,6 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.MyViewHold
         private final TextView previewUrlTextView;
         private final TextView isStreamableTextView;
         private final ImageButton previewButton;
-        private final ImageButton stopButton;
         private final ImageButton likeButton;
 
         MyViewHolder(View view) {
@@ -64,7 +67,6 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.MyViewHold
             previewUrlTextView = view.findViewById(R.id.preview_url_textview);
             isStreamableTextView = view.findViewById(R.id.is_streamable_textview);
             previewButton = view.findViewById(R.id.preview_button);
-            stopButton = view.findViewById(R.id.stop_button);
             likeButton = view.findViewById(R.id.like_button);
 
         }
@@ -95,7 +97,40 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.MyViewHold
         holder.previewUrlTextView.setText(modelObject.getPreviewUrl());
         holder.isStreamableTextView.setText(String.valueOf(modelObject.isStreamable()));
 
-        holder.stopButton.setEnabled(false);
+        if (utilityManager.getSharedPreference(UtilityManager.LIKES).contains(modelObject.getTrackId())){
+            holder.likeButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_like_selected));
+        }
+
+        holder.likeButton.setOnClickListener(v ->{
+
+            String trackId = holder.trackIdTextView.getText().toString();
+
+            // check if track is already liked
+            if (utilityManager.getSharedPreference(UtilityManager.LIKES).contains(trackId)) {
+                // track already liked
+                try {
+                    // remove like
+                    utilityManager.removeSharedPreference(trackId);
+                    holder.likeButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_like));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            } else { // track is not already liked
+                // add trackId to SharedPreference
+                utilityManager.setPreferences(trackId);
+                holder.likeButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_like_selected));
+            }
+
+//            Drawable img = mContext.getDrawable(R.drawable.ic_icon);
+//            img.setTint(ContextCompat.getColor(context, R.color.blue));
+//            btnOne.setBackground(img);
+
+            System.out.println("LIKES: " + utilityManager.getSharedPreference(UtilityManager.LIKES));
+
+
+        });
 
 
         holder.previewButton.setOnClickListener(v -> {
@@ -164,7 +199,7 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.MyViewHold
                 mediaPlayer.release();
 
                 mediaPlayer = null;
-                
+
                 holder.previewButton.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_play));
 
                 isMediaPlaying = false;
