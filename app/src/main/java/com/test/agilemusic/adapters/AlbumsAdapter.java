@@ -1,6 +1,7 @@
 package com.test.agilemusic.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +94,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         System.out.println("modelObject.getAlbumName(): " + modelObject.getAlbumName());
         System.out.println("modelObject.getYearOfRelease(): " + modelObject.getYearOfRelease());
         System.out.println("modelObject.getCurrency(): " + modelObject.getCurrency());
+
+        holder.albumNameTextView.setTypeface(Typeface.createFromAsset(context.getAssets(), "Lato-Regular.ttf"));
 
         holder.albumIdTextView.setText(modelObject.getAlbumId());
         holder.albumNameTextView.setText(modelObject.getAlbumName());
