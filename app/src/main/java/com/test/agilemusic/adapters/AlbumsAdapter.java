@@ -90,11 +90,6 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
         AlbumsModel modelObject = list.get(position);
 
-        System.out.println("modelObject.getAlbumId(): " + modelObject.getAlbumId());
-        System.out.println("modelObject.getAlbumName(): " + modelObject.getAlbumName());
-        System.out.println("modelObject.getYearOfRelease(): " + modelObject.getYearOfRelease());
-        System.out.println("modelObject.getCurrency(): " + modelObject.getCurrency());
-
         holder.albumNameTextView.setTypeface(Typeface.createFromAsset(context.getAssets(), "Lato-Regular.ttf"));
 
         holder.albumIdTextView.setText(modelObject.getAlbumId());

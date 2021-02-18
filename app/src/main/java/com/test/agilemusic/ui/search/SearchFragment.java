@@ -41,9 +41,11 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+
         root = inflater.inflate(R.layout.fragment_search, container, false);
 
         initViews();
+
 
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
 
@@ -59,16 +61,14 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         recyclerView = root.findViewById(R.id.recyclerview);
         noResultsTextView = root.findViewById(R.id.no_results_textview);
 
-//        progressBar = root.findViewById(R.id.progress_bar);
-
-//        progressBar.setVisibility(View.VISIBLE);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        // set dividers in recyclerview
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), linearLayoutManager.getOrientation()));
         }
+
         searchArtistAdapter = new SearchArtistAdapter(null, getActivity());
         recyclerView.setAdapter(searchArtistAdapter);
 
@@ -76,79 +76,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         System.out.println("progressbar: " + progressBar.getVisibility());
 
-
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        System.out.println("onQueryTextSubmit");
-
-        recyclerView.setVisibility(View.VISIBLE);
-        noResultsTextView.setVisibility(View.GONE);
-
-        if (!checkInternetConnection.isNetworkAvailable(getActivity())) {
-            showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.cancel), getActivity());
-        } else {
-
-            showOrHideProgressBar(1);
-            System.out.println("progressbar: " + progressBar.getVisibility());
-
-            searchViewModel.getArtistList(query).observe(getViewLifecycleOwner(), searchArtistModels -> {
-
-                if (searchArtistModels == null) { // no results
-                    System.out.println("searchArtistModels is null");
-                    recyclerView.setVisibility(View.INVISIBLE);
-                    noResultsTextView.setVisibility(View.VISIBLE);
-
-                } else if (searchArtistModels.isEmpty()) { // no results
-                    System.out.println("searchArtistModels.isEmpty()");
-                    recyclerView.setVisibility(View.INVISIBLE);
-                    noResultsTextView.setVisibility(View.VISIBLE);
-
-                } else { // has results
-                    searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
-                    recyclerView.setAdapter(searchArtistAdapter);
-                    recyclerView.setHasFixedSize(true);
-
-                }
-
-            });
-            showOrHideProgressBar(0);
-
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        System.out.println("onQueryTextChange");
-        recyclerView.setVisibility(View.VISIBLE);
-        noResultsTextView.setVisibility(View.GONE);
-
-        return false;
-    }
-
-    public void showOrHideProgressBar(int flag) {
-
-        if (flag == 0) {
-            progressBar.setVisibility(View.INVISIBLE);
-        } else if (flag == 1) {
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-    }
-
-    @Override
-    public void showAlertDialog(String title, String message, String positiveButtonText, Context context) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(positiveButtonText, (dialogInterface, id) -> {
-                    dialogInterface.dismiss();
-                })
-                .create()
-                .show();
 
     }
 
@@ -165,4 +92,77 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         progressBar.setVisibility(View.GONE);
 
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        System.out.println("onQueryTextSubmit");
+
+        noResultsTextView.setVisibility(View.GONE);
+
+        if (!checkInternetConnection.isNetworkAvailable(getActivity())) {
+            showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.cancel), getActivity());
+        } else {
+
+            progressBar.setVisibility(View.VISIBLE);
+
+
+            searchViewModel.getArtistList(query).observe(getViewLifecycleOwner(), searchArtistModels -> {
+
+                if (searchArtistModels == null) { // no results
+                    progressBar.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    noResultsTextView.setVisibility(View.VISIBLE);
+
+                    showAlertDialog(getString(R.string.oops), getString(R.string.something_went_wrong), getString(R.string.cancel), getActivity());
+
+                } else if (searchArtistModels.isEmpty()) { // no results
+                    progressBar.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    noResultsTextView.setVisibility(View.VISIBLE);
+
+                } else { // has results
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noResultsTextView.setVisibility(View.INVISIBLE);
+
+                    searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
+                    recyclerView.setAdapter(searchArtistAdapter);
+                    recyclerView.setHasFixedSize(true);
+                    progressBar.setVisibility(View.INVISIBLE);
+
+                }
+
+
+            });
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        recyclerView.setVisibility(View.VISIBLE);
+        noResultsTextView.setVisibility(View.GONE);
+
+        return false;
+    }
+
+
+    @Override
+    public void showAlertDialog(String title, String message, String positiveButtonText, Context context) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonText, (dialogInterface, id) -> {
+                    dialogInterface.dismiss();
+                })
+                .create()
+                .show();
+
+    }
+
+
+
 }

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class SearchViewModel extends ViewModel {
 
-    private MutableLiveData<List<SearchArtistModel>> artistList;
+    private MutableLiveData<List<SearchArtistModel>> artistList = null;
 
     public LiveData<List<SearchArtistModel>> getArtistList(String searchTerm) {
         System.out.println("getArtistList");
@@ -27,6 +27,7 @@ public class SearchViewModel extends ViewModel {
             this.artistList = new MutableLiveData<>();
         }
         searchArtistByName(searchTerm);
+        System.out.println("artistList: " + artistList.toString());
         return artistList;
     }
 
@@ -57,8 +58,7 @@ public class SearchViewModel extends ViewModel {
                                 int resultCount = response.getInt("resultCount");
                                 JSONArray resultsArray = response.getJSONArray("results");
 
-                                List<SearchArtistModel> list = null;
-                                list = new ArrayList<>();
+                                List<SearchArtistModel> list = new ArrayList<>();
 
                                 if (resultCount != 0) {
 
@@ -77,7 +77,7 @@ public class SearchViewModel extends ViewModel {
                                         String artistId = resultObject.getString("artistId");
 
                                         list.add(new SearchArtistModel(artistId, artistName, genre));
-                                        System.out.println("list.toString(): " + list.toString());
+//                                        System.out.println("list.toString(): " + list.toString());
 
                                     }
 
@@ -86,6 +86,7 @@ public class SearchViewModel extends ViewModel {
 
                             } catch (Exception ex) {
                                 System.out.println("exception: " + ex.getMessage());
+                                artistList.postValue(null);
                             }
 
                         }
@@ -94,26 +95,13 @@ public class SearchViewModel extends ViewModel {
                         public void onError(ANError error) {
                             // handle error
 
-//                            progressBar.setVisibility(View.GONE);
-//                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                            System.out.println("error: " + error);
-                            System.out.println(error.getErrorCode());
-                            System.out.println(error.getErrorBody());
-                            System.out.println(error.getErrorDetail());
-
-                            if (error.getErrorCode() != 0) {
-                                // received error from server
-                                System.out.println("error.getErrorCode() != 0)");
-                            } else {
-                                System.out.println("error.getErrorCode() == 0)");
-                            }
+                            artistList.postValue(null);
                         }
                     });
 
         } catch (Exception ex) {
-            System.out.println("exception");
             System.out.println(ex.getMessage());
+            artistList.postValue(null);
         }
 
     }

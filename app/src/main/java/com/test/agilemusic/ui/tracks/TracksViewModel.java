@@ -57,32 +57,34 @@ public class TracksViewModel extends ViewModel {
                                 int resultCount = response.getInt("resultCount");
                                 JSONArray resultsArray = response.getJSONArray("results");
 
-                                List<TrackModel> list = null;
-                                list = new ArrayList<>();
+                                List<TrackModel> list = new ArrayList<>();
 
-                                for (int a = 0; a < resultsArray.length(); a++) {
+                                if (resultCount > 1) {
 
-                                    JSONObject resultObject = resultsArray.getJSONObject(a);
+                                    for (int a = 0; a < resultsArray.length(); a++) {
 
-                                    if (resultObject.getString("wrapperType").equals("track")) {
+                                        JSONObject resultObject = resultsArray.getJSONObject(a);
 
-                                        String trackId = resultObject.getString("trackId");
-                                        String trackName = resultObject.getString("trackName");
-                                        String trackNumber = resultObject.getString("trackNumber");
-                                        String previewUrl = resultObject.getString("previewUrl");
-                                        boolean isStreamable = resultObject.getBoolean("isStreamable");
+                                        if (resultObject.getString("wrapperType").equals("track")) {
 
-                                        list.add(new TrackModel(trackId, trackName, trackNumber, isStreamable, previewUrl));
-                                        System.out.println("list.toString(): " + list.toString());
+                                            String trackId = resultObject.getString("trackId");
+                                            String trackName = resultObject.getString("trackName");
+                                            String trackNumber = resultObject.getString("trackNumber");
+                                            String previewUrl = resultObject.getString("previewUrl");
+                                            boolean isStreamable = resultObject.getBoolean("isStreamable");
 
+                                            list.add(new TrackModel(trackId, trackName, trackNumber, isStreamable, previewUrl));
+
+                                        }
                                     }
+
                                 }
 
-//                                artistList.postValue(list);
                                 trackList.setValue(list);
 
                             } catch (Exception ex) {
                                 System.out.println("exception: " + ex.getMessage());
+                                trackList.postValue(null);
                             }
 
                         }
@@ -91,25 +93,13 @@ public class TracksViewModel extends ViewModel {
                         public void onError(ANError error) {
                             // handle error
 
-//                            progressBar.setVisibility(View.GONE);
-//                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            trackList.postValue(null);
 
-                            System.out.println("error: " + error);
-                            System.out.println(error.getErrorCode());
-                            System.out.println(error.getErrorBody());
-                            System.out.println(error.getErrorDetail());
-
-                            if (error.getErrorCode() != 0) {
-                                // received error from server
-                                System.out.println("error.getErrorCode() != 0)");
-                            } else {
-                                System.out.println("error.getErrorCode() == 0)");
-                            }
                         }
                     });
 
         } catch (Exception ex) {
-            System.out.println("exception");
+            trackList.postValue(null);
             System.out.println(ex.getMessage());
         }
 

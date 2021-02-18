@@ -59,34 +59,35 @@ public class AlbumsViewModel extends ViewModel {
                                 int resultCount = response.getInt("resultCount");
                                 JSONArray resultsArray = response.getJSONArray("results");
 
-                                List<AlbumsModel> list = null;
-                                list = new ArrayList<>();
+                                List<AlbumsModel> list = new ArrayList<>();
 
-                                for (int a = 0; a < resultsArray.length(); a++) {
+                                if (resultCount > 1) {
 
-                                    JSONObject resultObject = resultsArray.getJSONObject(a);
+                                    for (int a = 0; a < resultsArray.length(); a++) {
 
-                                    if (resultObject.getString("wrapperType").equals("collection")) {
+                                        JSONObject resultObject = resultsArray.getJSONObject(a);
 
-                                        String albumId = resultObject.getString("collectionId");
-                                        String albumName = resultObject.getString("collectionName");
-                                        String releaseDate = resultObject.getString("releaseDate");
-                                        String trackCount = String.valueOf(resultObject.getInt("trackCount"));
-                                        String price = resultObject.getString("collectionPrice");
-                                        String currency = resultObject.getString("currency");
-                                        String artworkUrl = resultObject.getString("artworkUrl100");
+                                        if (resultObject.getString("wrapperType").equals("collection")) {
 
-                                        list.add(new AlbumsModel(albumId, albumName, releaseDate, price, trackCount, currency, artworkUrl));
-                                        System.out.println("list.toString(): " + list.toString());
+                                            String albumId = resultObject.getString("collectionId");
+                                            String albumName = resultObject.getString("collectionName");
+                                            String releaseDate = resultObject.getString("releaseDate");
+                                            String trackCount = String.valueOf(resultObject.getInt("trackCount"));
+                                            String price = resultObject.getString("collectionPrice");
+                                            String currency = resultObject.getString("currency");
+                                            String artworkUrl = resultObject.getString("artworkUrl100");
 
+                                            list.add(new AlbumsModel(albumId, albumName, releaseDate, price, trackCount, currency, artworkUrl));
+
+                                        }
                                     }
                                 }
 
-//                                artistList.postValue(list);
-                                albumList.setValue(list);
+                                albumList.postValue(list);
 
                             } catch (Exception ex) {
                                 System.out.println("exception: " + ex.getMessage());
+                                albumList.postValue(null);
                             }
 
                         }
@@ -95,25 +96,13 @@ public class AlbumsViewModel extends ViewModel {
                         public void onError(ANError error) {
                             // handle error
 
-//                            progressBar.setVisibility(View.GONE);
-//                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            albumList.postValue(null);
 
-                            System.out.println("error: " + error);
-                            System.out.println(error.getErrorCode());
-                            System.out.println(error.getErrorBody());
-                            System.out.println(error.getErrorDetail());
-
-                            if (error.getErrorCode() != 0) {
-                                // received error from server
-                                System.out.println("error.getErrorCode() != 0)");
-                            } else {
-                                System.out.println("error.getErrorCode() == 0)");
-                            }
                         }
                     });
 
         } catch (Exception ex) {
-            System.out.println("exception");
+            albumList.postValue(null);
             System.out.println(ex.getMessage());
         }
 
