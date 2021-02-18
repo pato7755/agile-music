@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -15,7 +15,6 @@ import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,17 +23,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.test.agilemusic.R;
 import com.test.agilemusic.adapters.SearchArtistAdapter;
 import com.test.agilemusic.communication.CheckInternetConnection;
-import com.test.agilemusic.models.SearchArtistModel;
 import com.test.agilemusic.utilities.ErrorDialogInterface;
 
-import java.util.List;
 import java.util.Objects;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, ErrorDialogInterface {
 
     private CheckInternetConnection checkInternetConnection = new CheckInternetConnection();
     private SearchViewModel searchViewModel;
-    private SearchView searchView;
+    private TextView noResultsTextView;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     SearchArtistAdapter searchArtistAdapter;
@@ -58,8 +55,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
         initProgressBar();
 
-        searchView = root.findViewById(R.id.searchview);
+        SearchView searchView = root.findViewById(R.id.searchview);
         recyclerView = root.findViewById(R.id.recyclerview);
+        noResultsTextView = root.findViewById(R.id.no_results_textview);
+
 //        progressBar = root.findViewById(R.id.progress_bar);
 
 //        progressBar.setVisibility(View.VISIBLE);
@@ -84,6 +83,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public boolean onQueryTextSubmit(String query) {
         System.out.println("onQueryTextSubmit");
 
+        recyclerView.setVisibility(View.VISIBLE);
+        noResultsTextView.setVisibility(View.GONE);
 
         if (!checkInternetConnection.isNetworkAvailable(getActivity())) {
             showAlertDialog(getString(R.string.oops), getString(R.string.no_internet_connection), getString(R.string.cancel), getActivity());
@@ -94,9 +95,22 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
             searchViewModel.getArtistList(query).observe(getViewLifecycleOwner(), searchArtistModels -> {
 
-                searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
-                recyclerView.setAdapter(searchArtistAdapter);
-                recyclerView.setHasFixedSize(true);
+                if (searchArtistModels == null) { // no results
+                    System.out.println("searchArtistModels is null");
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    noResultsTextView.setVisibility(View.VISIBLE);
+
+                } else if (searchArtistModels.isEmpty()) { // no results
+                    System.out.println("searchArtistModels.isEmpty()");
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    noResultsTextView.setVisibility(View.VISIBLE);
+
+                } else { // has results
+                    searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
+                    recyclerView.setAdapter(searchArtistAdapter);
+                    recyclerView.setHasFixedSize(true);
+
+                }
 
             });
             showOrHideProgressBar(0);
@@ -108,7 +122,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public boolean onQueryTextChange(String newText) {
         System.out.println("onQueryTextChange");
-
+        recyclerView.setVisibility(View.VISIBLE);
+        noResultsTextView.setVisibility(View.GONE);
 
         return false;
     }

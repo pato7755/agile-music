@@ -60,28 +60,28 @@ public class SearchViewModel extends ViewModel {
                                 List<SearchArtistModel> list = null;
                                 list = new ArrayList<>();
 
-                                for (int a = 0; a < resultsArray.length(); a++) {
+                                if (resultCount != 0) {
 
-                                    JSONObject resultObject = resultsArray.getJSONObject(a);
+                                    for (int a = 0; a < resultsArray.length(); a++) {
 
-                                    String artistName = resultObject.getString("artistName");
+                                        JSONObject resultObject = resultsArray.getJSONObject(a);
 
-                                    String genre = "";
-                                    if (resultObject.has("primaryGenreName"))
-                                        genre = resultObject.getString("primaryGenreName");
-                                    else
-                                        genre = "No particular genre";
+                                        String artistName = resultObject.getString("artistName");
 
+                                        String genre = "";
+                                        if (resultObject.has("primaryGenreName"))
+                                            genre = resultObject.getString("primaryGenreName");
+                                        else
+                                            genre = "No particular genre";
 
-                                    String artistId = resultObject.getString("artistId");
+                                        String artistId = resultObject.getString("artistId");
 
-                                    list.add(new SearchArtistModel(artistId, artistName, genre));
-                                    System.out.println("list.toString(): " + list.toString());
+                                        list.add(new SearchArtistModel(artistId, artistName, genre));
+                                        System.out.println("list.toString(): " + list.toString());
+
+                                    }
 
                                 }
-
-
-//                                artistList.postValue(list);
                                 artistList.postValue(list);
 
                             } catch (Exception ex) {
