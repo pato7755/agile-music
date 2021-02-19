@@ -38,19 +38,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-//        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-//            @Override
-//            public void onDestinationChanged(@NonNull NavController controller,
-//                                             @NonNull NavDestination destination,
-//                                             @Nullable Bundle arguments) {
-//
-//                if (destination.getId() == R.id.navigation_home) {
-//                    findViewById(R.id.chat_toolbar_constraintL).setVisibility(View.VISIBLE);
-//                    toolbar.setNavigationIcon(null);
-//                } /*else {
-//                    findViewById(R.id.chat_toolbar_constraintL).setVisibility(View.GONE);
-//                }*/
-//            }});
 
     }
 
