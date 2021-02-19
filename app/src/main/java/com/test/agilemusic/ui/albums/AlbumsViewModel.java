@@ -50,7 +50,6 @@ public class AlbumsViewModel extends ViewModel {
                     .getAsJSONObject(new JSONObjectRequestListener() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            // do anything with response
 
                             System.out.println("response: " + response);
 
@@ -68,13 +67,6 @@ public class AlbumsViewModel extends ViewModel {
                                         JSONObject resultObject = resultsArray.getJSONObject(a);
 
                                         if (resultObject.getString("wrapperType").equals("collection")) {
-
-//                                            String albumId = "";
-//                                            String releaseDate = "";
-//                                            String trackCount = "";
-//                                            String price = "";
-//                                            String currency = "";
-//                                            String artworkUrl = "";
 
                                             String albumId = resultObject.has("collectionId") ? resultObject.getString("collectionId") : "";
                                             String albumName = resultObject.has("collectionName") ? resultObject.getString("collectionName") : "";

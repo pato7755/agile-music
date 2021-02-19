@@ -48,7 +48,6 @@ public class TracksViewModel extends ViewModel {
                     .getAsJSONObject(new JSONObjectRequestListener() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            // do anything with response
 
                             System.out.println("response: " + response);
 

@@ -12,10 +12,8 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     private boolean loading = true;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    // it can LinearLayoutManager as well
     public EndlessScrollListener(LinearLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
-//        visibleThreshold = visibleThreshold /** layoutManager.get()*/;
     }
 
     @Override

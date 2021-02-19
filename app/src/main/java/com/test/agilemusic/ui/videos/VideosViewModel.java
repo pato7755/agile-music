@@ -1,4 +1,4 @@
-package com.test.agilemusic.ui.search;
+package com.test.agilemusic.ui.videos;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchViewModel extends ViewModel {
+public class VideosViewModel extends ViewModel {
 
     private MutableLiveData<List<SearchArtistModel>> artistList = null;
 

@@ -210,33 +210,6 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.MyViewHold
 
 
 
-        /*holder.stopButton.setOnClickListener(v -> {
-
-            System.out.println("stopButton pressed");
-
-            try {
-
-                mediaPlayer.release();
-                Toast.makeText(context, "Stopped", Toast.LENGTH_SHORT).show();
-
-                holder.previewButton.setVisibility(View.VISIBLE);
-                holder.previewButton.setEnabled(true);
-
-                holder.stopButton.setVisibility(View.INVISIBLE);
-                holder.stopButton.setEnabled(false);
-
-            } catch (IllegalArgumentException ex) {
-                ex.getMessage();
-            } catch (IllegalStateException ex) {
-                ex.getMessage();
-            } catch (SecurityException ex) {
-                ex.getMessage();
-            }
-
-        });
-*/
-//        mediaPlayer.setOnCompletionListener(mediaPlayer -> {
-
         if (mediaPlayer == null)
             mediaPlayer = new MediaPlayer();
 

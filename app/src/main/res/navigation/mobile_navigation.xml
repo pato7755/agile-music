@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_videos">
 
     <fragment
         android:id="@+id/nav_home"
@@ -11,11 +11,17 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
+<fragment
+        android:id="@+id/nav_videos"
+        android:name="com.test.agilemusic.ui.videos.VideosFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_videos" />
+
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.test.agilemusic.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_navigation_search_to_navigation_albums"
             app:destination="@id/navigation_albums"
@@ -31,13 +37,13 @@
     <fragment
         android:id="@+id/navigation_albums"
         android:name="com.test.agilemusic.ui.albums.AlbumsFragment"
-        tools:layout="@layout/fragment_albums" >
+        tools:layout="@layout/fragment_albums">
         <action
             android:id="@+id/action_navigation_albums_to_navigation_tracks"
             app:destination="@id/navigation_tracks" />
     </fragment>
 
- <fragment
+    <fragment
         android:id="@+id/navigation_tracks"
         android:name="com.test.agilemusic.ui.tracks.TracksFragment"
         tools:layout="@layout/fragment_tracks" />

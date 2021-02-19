@@ -77,10 +77,6 @@ public class SearchArtistAdapter extends RecyclerView.Adapter<SearchArtistAdapte
 
         SearchArtistModel modelObject = list.get(position);
 
-//        System.out.println("modelObject.getArtistId(): " + modelObject.getArtistId());
-//        System.out.println("modelObject.getArtistName(): " + modelObject.getArtistName());
-//        System.out.println("modelObject.getGenre(): " + modelObject.getGenre());
-
         holder.artistIdTextView.setText(modelObject.getArtistId());
         holder.artistNameTextView.setText(modelObject.getArtistName());
         holder.genreTextView.setText(modelObject.getGenre());
@@ -90,30 +86,11 @@ public class SearchArtistAdapter extends RecyclerView.Adapter<SearchArtistAdapte
     public void add(SearchArtistModel mc) {
         list.add(mc);
 
-//        notifyItemInserted(list.size() - 1);
-
     }
 
     public void addToList(List<SearchArtistModel> newList){
 
-        System.out.println("addToList");
-
-        System.out.println(list.get(0));
-        System.out.println(newList.get(0));
-//        System.out.println(list.get(20));
-
-//        for (SearchArtistModel searchList: newList) {
-//            add(searchList);
-//        }
-
         this.list.addAll(newList);
-        System.out.println("list.addAll(newList) size: " + list.size());
-        System.out.println(list.get(0));
-        System.out.println(list.get(19));
-        System.out.println(list.get(20));
-        System.out.println(list.get(21));
-//        this.notifyItemInserted(list.size() -1);
-//        this.notifyDataSetChanged();
 
 
     }
