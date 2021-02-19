@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,12 +72,12 @@ public class VideosFragment extends Fragment implements SearchView.OnQueryTextLi
         recyclerView = root.findViewById(R.id.recyclerview);
         noResultsTextView = root.findViewById(R.id.no_results_textview);
 
-        linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         // set dividers in recyclerview
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), linearLayoutManager.getOrientation()));
+            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), gridLayoutManager.getOrientation()));
         }
 
         videosAdapter = new VideosAdapter(null, getActivity());

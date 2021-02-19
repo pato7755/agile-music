@@ -66,6 +66,9 @@ public class VideoPlayerFragment extends Fragment implements ErrorDialogInterfac
                 videoView.setOnCompletionListener(mp -> {
                     Toast.makeText(getContext(), "Video over", Toast.LENGTH_SHORT).show();
                     mp.release();
+                    if (getFragmentManager() != null) {
+                        getFragmentManager().popBackStackImmediate();
+                    }
 
                 });
 
