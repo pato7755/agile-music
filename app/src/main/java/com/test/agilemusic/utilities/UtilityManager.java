@@ -1,10 +1,7 @@
 package com.test.agilemusic.utilities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import androidx.core.content.ContextCompat;
 
 import com.test.agilemusic.application.AgileMusicApplication;
 
@@ -12,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Currency;
 import java.util.Date;
 import java.util.HashSet;
@@ -26,6 +22,10 @@ public class UtilityManager {
     public static final String LIKES = "LIKES";
 
     public String getYearFromDate(String datetime) {
+
+        if (datetime == null || datetime.isEmpty()) {
+            return "";
+        }
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(convertStringToDate(datetime));

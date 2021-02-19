@@ -69,13 +69,20 @@ public class AlbumsViewModel extends ViewModel {
 
                                         if (resultObject.getString("wrapperType").equals("collection")) {
 
-                                            String albumId = resultObject.getString("collectionId");
-                                            String albumName = resultObject.getString("collectionName");
-                                            String releaseDate = resultObject.getString("releaseDate");
-                                            String trackCount = String.valueOf(resultObject.getInt("trackCount"));
-                                            String price = resultObject.getString("collectionPrice");
-                                            String currency = resultObject.getString("currency");
-                                            String artworkUrl = resultObject.getString("artworkUrl100");
+//                                            String albumId = "";
+//                                            String releaseDate = "";
+//                                            String trackCount = "";
+//                                            String price = "";
+//                                            String currency = "";
+//                                            String artworkUrl = "";
+
+                                            String albumId = resultObject.has("collectionId") ? resultObject.getString("collectionId") : "";
+                                            String albumName = resultObject.has("collectionName") ? resultObject.getString("collectionName") : "";
+                                            String releaseDate = resultObject.has("releaseDate") ? resultObject.getString("releaseDate") : "";
+                                            String trackCount = resultObject.has("trackCount") ? resultObject.getString("trackCount") : "";
+                                            String price = resultObject.has("collectionPrice") ? resultObject.getString("collectionPrice") : "0.00";
+                                            String currency = resultObject.has("currency") ? resultObject.getString("currency") : "USD";
+                                            String artworkUrl = resultObject.has("artworkUrl100") ? resultObject.getString("artworkUrl100") : "";
 
                                             list.add(new AlbumsModel(albumId, albumName, releaseDate, price, trackCount, currency, artworkUrl));
 

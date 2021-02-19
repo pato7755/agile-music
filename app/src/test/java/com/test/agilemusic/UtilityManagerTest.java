@@ -15,16 +15,16 @@ import static org.junit.Assert.assertThat;
 public class UtilityManagerTest {
 
     @Test
-    public void check_yearLength() throws Exception{
+    public void check_yearLength() throws Exception {
 
         UtilityManager utilityManager = new UtilityManager();
         int expectedLength = 4;
-        assert(utilityManager.getYearFromDate("2007-12-18T08:00:00Z").length() == expectedLength);
+        assert (utilityManager.getYearFromDate("2007-12-18T08:00:00Z").length() == expectedLength);
 
     }
 
     @Test
-    public void check_year() throws Exception{
+    public void check_year() throws Exception {
 
         UtilityManager utilityManager = new UtilityManager();
         String dateTime = "2007-12-18T08:00:00Z";
@@ -32,6 +32,15 @@ public class UtilityManagerTest {
 
     }
 
+    @Test
+    public void check_empty_date() throws Exception {
+
+        UtilityManager utilityManager = new UtilityManager();
+//        String dateTime = "";
+        String dateTime = null;
+        assertEquals("", utilityManager.getYearFromDate(dateTime));
+
+    }
 
 
 }

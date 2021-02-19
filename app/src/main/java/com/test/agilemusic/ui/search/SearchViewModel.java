@@ -21,20 +21,20 @@ public class SearchViewModel extends ViewModel {
 
     private MutableLiveData<List<SearchArtistModel>> artistList = null;
 
-    public LiveData<List<SearchArtistModel>> getArtistList(String searchTerm) {
-        System.out.println("getArtistList");
+    public LiveData<List<SearchArtistModel>> getArtistList(String searchTerm, int offset, int limit) {
         if (artistList == null) {
             this.artistList = new MutableLiveData<>();
         }
-        searchArtistByName(searchTerm);
-        System.out.println("artistList: " + artistList.toString());
+        searchArtistByName(searchTerm, offset, limit);
         return artistList;
     }
 
 
-    public void searchArtistByName(String term) {
+    public void searchArtistByName(String term, int offset, int limit) {
 
         System.out.println(UrlClass.baseUrl + UrlClass.SEARCH);
+        System.out.println("offset: " + offset);
+        System.out.println("limit: " + limit);
 
         try {
 
@@ -42,7 +42,8 @@ public class SearchViewModel extends ViewModel {
                     .addHeaders("Content-Type", "application/json")
                     .addQueryParameter(UrlClass.TERM, term)
                     .addQueryParameter(UrlClass.ENTITY, UrlClass.ALL_ARTIST_ENTITY)
-                    .addQueryParameter(UrlClass.LIMIT, "20")
+                    .addQueryParameter(UrlClass.OFFSET, String.valueOf(offset))
+                    .addQueryParameter(UrlClass.LIMIT, String.valueOf(limit))
                     .setTag("search")
                     .setPriority(Priority.MEDIUM)
                     .build()
@@ -77,7 +78,6 @@ public class SearchViewModel extends ViewModel {
                                         String artistId = resultObject.getString("artistId");
 
                                         list.add(new SearchArtistModel(artistId, artistName, genre));
-//                                        System.out.println("list.toString(): " + list.toString());
 
                                     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Agile Music</string>
+    <string name="app_name">Agile \nMusic</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -13,9 +13,10 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_favourites">Favourites</string>
     <string name="title_search">Search</string>
-    <string name="search_artist">Search by Artist or group name</string>
+    <string name="search_artist">Search for music by Artist name</string>
+    <string name="search_video">Search for video by Artist name</string>
     <string name="genre">Genre</string>
     <string name="u2022_bullet">•</string>
     <string name="no_particular_genre">No particular genre</string>

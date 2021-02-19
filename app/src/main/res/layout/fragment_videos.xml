@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:layout_marginBottom="70dp"
-    tools:context=".ui.search.SearchFragment">
+    tools:context=".ui.video.SearchVideoFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchview"
@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/light_gray"
-        app:defaultQueryHint="@string/search_artist"
-        app:queryHint="@string/search_artist"
+        app:defaultQueryHint="@string/search_video"
+        app:queryHint="@string/search_video"
         app:iconifiedByDefault="false"
         >
 

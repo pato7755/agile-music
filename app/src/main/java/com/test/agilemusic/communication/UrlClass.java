@@ -15,7 +15,7 @@ public class UrlClass {
     public static final String ATTRIBUTE = "attribute";
     public static final String LIMIT = "limit";
 
-    public static final String MUSIC_MEDIA_TYPE = "music";
+    public static final String OFFSET = "offset";
     public static final String ALL_ARTIST_ENTITY = "allArtist";
     public static final String SONG = "song";
     public static final String ALBUM = "album";

@@ -23,10 +23,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.test.agilemusic.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_favourites"
+        android:name="com.test.agilemusic.ui.favourites.FavouritesFragment"
+        android:label="@string/title_favourites"
+        tools:layout="@layout/fragment_favourites" />
 
     <fragment
         android:id="@+id/navigation_albums"
