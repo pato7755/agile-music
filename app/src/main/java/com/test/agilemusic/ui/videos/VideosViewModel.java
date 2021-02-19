@@ -10,6 +10,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.test.agilemusic.communication.UrlClass;
 import com.test.agilemusic.models.SearchArtistModel;
+import com.test.agilemusic.models.VideosModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,29 +20,27 @@ import java.util.List;
 
 public class VideosViewModel extends ViewModel {
 
-    private MutableLiveData<List<SearchArtistModel>> artistList = null;
+    private MutableLiveData<List<VideosModel>> videosList = null;
 
-    public LiveData<List<SearchArtistModel>> getArtistList(String searchTerm, int offset, int limit) {
-        if (artistList == null) {
-            this.artistList = new MutableLiveData<>();
+    public LiveData<List<VideosModel>> getVideosByArtistName(String searchTerm, int offset, int limit) {
+        if (videosList == null) {
+            this.videosList = new MutableLiveData<>();
         }
-        searchArtistByName(searchTerm, offset, limit);
-        return artistList;
+        searchVideo(searchTerm, offset, limit);
+        return videosList;
     }
 
 
-    public void searchArtistByName(String term, int offset, int limit) {
+    public void searchVideo(String term, int offset, int limit) {
 
         System.out.println(UrlClass.baseUrl + UrlClass.SEARCH);
-        System.out.println("offset: " + offset);
-        System.out.println("limit: " + limit);
 
         try {
 
             AndroidNetworking.get(UrlClass.baseUrl + UrlClass.SEARCH)
                     .addHeaders("Content-Type", "application/json")
                     .addQueryParameter(UrlClass.TERM, term)
-                    .addQueryParameter(UrlClass.ENTITY, UrlClass.ALL_ARTIST_ENTITY)
+                    .addQueryParameter(UrlClass.ENTITY, UrlClass.MUSIC_VIDEO)
                     .addQueryParameter(UrlClass.OFFSET, String.valueOf(offset))
                     .addQueryParameter(UrlClass.LIMIT, String.valueOf(limit))
                     .setTag("search")
@@ -58,7 +57,7 @@ public class VideosViewModel extends ViewModel {
                                 int resultCount = response.getInt("resultCount");
                                 JSONArray resultsArray = response.getJSONArray("results");
 
-                                List<SearchArtistModel> list = new ArrayList<>();
+                                List<VideosModel> list = new ArrayList<>();
 
                                 if (resultCount != 0) {
 
@@ -66,26 +65,20 @@ public class VideosViewModel extends ViewModel {
 
                                         JSONObject resultObject = resultsArray.getJSONObject(a);
 
-                                        String artistName = resultObject.getString("artistName");
+                                        String trackName = resultObject.has("trackName") ? resultObject.getString("trackName") : "";
+                                        String previewUrl = resultObject.has("previewUrl") ? resultObject.getString("previewUrl") : "";
+                                        String artworkUrl = resultObject.has("artworkUrl100") ? resultObject.getString("artworkUrl100") : "";
 
-                                        String genre = "";
-                                        if (resultObject.has("primaryGenreName"))
-                                            genre = resultObject.getString("primaryGenreName");
-                                        else
-                                            genre = "No particular genre";
-
-                                        String artistId = resultObject.getString("artistId");
-
-                                        list.add(new SearchArtistModel(artistId, artistName, genre));
+                                        list.add(new VideosModel(trackName, artworkUrl, previewUrl));
 
                                     }
 
                                 }
-                                artistList.postValue(list);
+                                videosList.postValue(list);
 
                             } catch (Exception ex) {
                                 System.out.println("exception: " + ex.getMessage());
-                                artistList.postValue(null);
+                                videosList.postValue(null);
                             }
 
                         }
@@ -94,13 +87,13 @@ public class VideosViewModel extends ViewModel {
                         public void onError(ANError error) {
                             // handle error
 
-                            artistList.postValue(null);
+                            videosList.postValue(null);
                         }
                     });
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            artistList.postValue(null);
+            videosList.postValue(null);
         }
 
     }

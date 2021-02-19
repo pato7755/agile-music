@@ -3,19 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/navigation_videos">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.test.agilemusic.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_video_player"
+        android:name="com.test.agilemusic.ui.videoplayer.VideoPlayerFragment"
+        android:label="@string/video_player"
+        tools:layout="@layout/fragment_video_player" />
 
     <fragment
-        android:id="@+id/nav_videos"
+        android:id="@+id/navigation_videos"
         android:name="com.test.agilemusic.ui.videos.VideosFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_videos" />
+        android:label="@string/title_videos"
+        tools:layout="@layout/fragment_videos" >
+        <action
+            android:id="@+id/action_navigation_videos_to_navigation_video_player"
+            app:destination="@id/navigation_video_player" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"

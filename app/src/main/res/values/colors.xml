@@ -9,4 +9,5 @@
     <color name="blue">#3681FF</color>
     <color name="dark_gray">#666666</color>
     <color name="black">#000000</color>
+    <color name="image_dim">#99000000</color>
 </resources>

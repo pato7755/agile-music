@@ -17,6 +17,7 @@ public class UrlClass {
 
     public static final String OFFSET = "offset";
     public static final String ALL_ARTIST_ENTITY = "allArtist";
+    public static final String MUSIC_VIDEO = "musicVideo";
     public static final String SONG = "song";
     public static final String ALBUM = "album";
     public static final String ID = "id";

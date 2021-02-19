@@ -9,9 +9,11 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
+    <string name="video_player">Video Player</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="title_home">Home</string>
+    <string name="title_videos">Videos</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_favourites">Favourites</string>
     <string name="title_search">Search</string>

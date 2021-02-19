@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:layout_marginBottom="70dp"
-    tools:context=".ui.video.SearchVideoFragment">
+    tools:context=".ui.videos.VideosFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchview"

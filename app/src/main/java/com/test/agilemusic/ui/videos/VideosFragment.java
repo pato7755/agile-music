@@ -24,8 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.test.agilemusic.R;
 import com.test.agilemusic.adapters.SearchArtistAdapter;
+import com.test.agilemusic.adapters.VideosAdapter;
 import com.test.agilemusic.communication.CheckInternetConnection;
 import com.test.agilemusic.models.SearchArtistModel;
+import com.test.agilemusic.models.VideosModel;
 import com.test.agilemusic.utilities.ErrorDialogInterface;
 
 import java.util.ArrayList;
@@ -40,19 +42,18 @@ public class VideosFragment extends Fragment implements SearchView.OnQueryTextLi
     private TextView noResultsTextView;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    SearchArtistAdapter searchArtistAdapter;
+    VideosAdapter videosAdapter;
     View root;
     private String searchTerm;
     int offset = 0;
     int limit = 20;
-    List<SearchArtistModel> searchArtistModels = new ArrayList<>();
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        root = inflater.inflate(R.layout.fragment_search, container, false);
+        root = inflater.inflate(R.layout.fragment_videos, container, false);
 
         initViews();
 
@@ -78,8 +79,8 @@ public class VideosFragment extends Fragment implements SearchView.OnQueryTextLi
             recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), linearLayoutManager.getOrientation()));
         }
 
-        searchArtistAdapter = new SearchArtistAdapter(null, getActivity());
-        recyclerView.setAdapter(searchArtistAdapter);
+        videosAdapter = new VideosAdapter(null, getActivity());
+        recyclerView.setAdapter(videosAdapter);
 
         searchView.setOnQueryTextListener(this);
 
@@ -113,37 +114,30 @@ public class VideosFragment extends Fragment implements SearchView.OnQueryTextLi
 
             progressBar.setVisibility(View.VISIBLE);
 
-            searchViewModel.getArtistList(searchTerm, offset, limit).observe(getViewLifecycleOwner(), new Observer<List<SearchArtistModel>>() {
+            searchViewModel.getVideosByArtistName(searchTerm, offset, limit).observe(getViewLifecycleOwner(), videoModels -> {
 
-                @Override
-                public void onChanged(@Nullable List<SearchArtistModel> s) {
+                if (videoModels == null) { // no results
+                    progressBar.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    noResultsTextView.setVisibility(View.VISIBLE);
 
-                    if (s == null) { // no results
-                        progressBar.setVisibility(View.INVISIBLE);
-                        recyclerView.setVisibility(View.INVISIBLE);
-                        noResultsTextView.setVisibility(View.VISIBLE);
+                    showAlertDialog(getString(R.string.oops), getString(R.string.something_went_wrong), getString(R.string.cancel), getActivity());
 
-                        showAlertDialog(getString(R.string.oops), getString(R.string.something_went_wrong), getString(R.string.cancel), getActivity());
+                } else if (videoModels.isEmpty()) { // no results
+                    progressBar.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    noResultsTextView.setVisibility(View.VISIBLE);
 
-                    } else if (s.isEmpty()) { // no results
-                        progressBar.setVisibility(View.INVISIBLE);
-                        recyclerView.setVisibility(View.INVISIBLE);
-                        noResultsTextView.setVisibility(View.VISIBLE);
+                } else { // has results
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noResultsTextView.setVisibility(View.INVISIBLE);
 
-                    } else { // has results
-                        recyclerView.setVisibility(View.VISIBLE);
-                        noResultsTextView.setVisibility(View.INVISIBLE);
-                        searchArtistModels = s;
-
-                        searchArtistAdapter = new SearchArtistAdapter(searchArtistModels, getActivity());
-                        recyclerView.setAdapter(searchArtistAdapter);
-                        recyclerView.setHasFixedSize(true);
-                        progressBar.setVisibility(View.INVISIBLE);
-
-                    }
+                    videosAdapter = new VideosAdapter(videoModels, getActivity());
+                    recyclerView.setAdapter(videosAdapter);
+                    recyclerView.setHasFixedSize(true);
+                    progressBar.setVisibility(View.INVISIBLE);
 
                 }
-
 
             });
 
